@@ -31,6 +31,17 @@ export class UsersService {
     );
   }
 
+  async getByName(name: string) {
+    const user = await this.usersRepository.findOne({ name });
+    if (user) {
+      return user;
+    }
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND
+    );
+  }
+
   async getById(id: number) {
     const user = await this.usersRepository.findOne({ id });
     if (user) {
