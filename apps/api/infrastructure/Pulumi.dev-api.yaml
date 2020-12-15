@@ -1,0 +1,18 @@
+config:
+  aws:region: eu-west-1
+  elka-aws:JWT_ACCESS_TOKEN_EXPIRATION_TIME: "3600"
+  elka-aws:JWT_ACCESS_TOKEN_SECRET:
+    secure: AAABAAyNNeqqAdzX9gcGeN3DqH9VW5uUxFPyQLotFvIS4tUoVr4UDwfQRhluvStIq95NXGxZqIW64B9TC80V2Yym3teBjh2iN0wFkA==
+  elka-aws:JWT_REFRESH_TOKEN_EXPIRATION_TIME: "2000"
+  elka-aws:JWT_REFRESH_TOKEN_SECRET:
+    secure: AAABAMHR99iwTwHcO0ANajBlsT6S00Of0B/zJ/ZiF40sGxu1DOIqsZYdMr49FoA=
+  elka-aws:PORT: "5000"
+  elka-aws:POSTGRES_DB: elka_schema
+  elka-aws:POSTGRES_HOST: elka-api-db-proxy.proxy-cpberszwi2vz.eu-west-1.rds.amazonaws.com
+  elka-aws:POSTGRES_PASSWORD: Cyb3r$tuff
+  elka-aws:POSTGRES_PORT: "5432"
+  elka-aws:POSTGRES_USER: postgres
+  elka-aws:SYNC_DB: "false"
+  elka-aws:USE_SSL: "true"
+  elka-aws:distPath: /mnt/hd/CODE/nx/elka-aws/dist/apps/api
+  elka-aws:projectName: api

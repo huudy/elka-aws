@@ -1,0 +1,33 @@
+<!-- <ngb-alert *ngIf="message" [type]="message.type" [dismissible]="false" class="message.cssClass">
+  <div class="container">
+    <div class="alert-wrapper">
+      <button type="button" name="button" class="close" (click)="close()">
+        <span aria-hidden="true">
+          <i class="now-ui-icons ui-1_simple-remove"></i>
+        </span>
+      </button>
+      <div class="message">
+        <ng-container>
+          <div class="alert-icon">
+            <i class="now-ui-icons {{message.icon}}"></i>
+          </div>
+        </ng-container>
+        <strong>{{message.strong}} </strong>{{ message.text }}
+      </div>
+    </div>
+  </div>
+</ngb-alert> -->
+
+
+<div class="text-white px-6 py-4 border-0 rounded relative mb-4 bg-red-500">
+  <span class="text-xl inline-block mr-5 align-middle">
+    <i class="fas fa-bell"></i>
+  </span>
+  <span class="inline-block align-middle mr-8">
+    <b class="capitalize">red!</b> This is a red alert - check it out!
+  </span>
+  <button
+    class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
+    <span>×</span>
+  </button>
+</div>

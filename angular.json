@@ -1,0 +1,318 @@
+{
+  "version": 1,
+  "projects": {
+    "elka": {
+      "projectType": "application",
+      "schematics": { },
+      "root": "apps/elka",
+      "sourceRoot": "apps/elka/src",
+      "prefix": "elka-aws",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "allowedCommonJsDependencies": [
+              "chart.js"
+           ],
+            "outputPath": "dist/apps/elka",
+            "index": "apps/elka/src/index.html",
+            "main": "apps/elka/src/main.ts",
+            "polyfills": "apps/elka/src/polyfills.ts",
+            "tsConfig": "apps/elka/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/elka/src/favicon.ico", "apps/elka/src/assets"],
+            "styles": ["apps/elka/src/styles.css","node_modules/@fortawesome/fontawesome-free/css/all.min.css",
+              "apps/elka/src/assets/styles/tailwind.css"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/elka/src/environments/environment.ts",
+                  "with": "apps/elka/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "elka:build",
+            "proxyConfig": "apps/elka/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "elka:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "elka:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/elka/tsconfig.app.json",
+              "apps/elka/tsconfig.spec.json",
+              "apps/elka/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/elka/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/elka/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "builder": "@dev-thought/nx-deploy-it:deploy",          
+          "options": {
+            "main": "apps/elka/infrastructure/index.ts",
+            "provider": "aws",     
+            "fileReplacements": [
+              {
+                "replace": "./apps/elka/src/environments/environment.ts",
+                "with": "./apps/elka/src/environments/environment.prod.ts"
+              }
+            ],                   
+            "pulumi": {
+              "aws:profile": "",
+              "aws:region": "eu-west-1",
+              "useCdn": false
+            }
+          },
+          "configurations": {
+            
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "./apps/elka/src/environments/environment.ts",
+                  "with": "./apps/elka/src/environments/environment.prod.ts"
+                }
+              ],
+              "pulumi": {
+                "aws:region": "eu-west-1",
+                "useCdn": true
+              }
+            }
+          }
+        },
+        "destroy": {
+          "builder": "@dev-thought/nx-deploy-it:destroy",
+          "options": {
+            "main": "apps/elka/infrastructure/index.ts",
+            "provider": "aws"
+          }
+        }
+      }
+    },
+    "elka-e2e": {
+      "root": "apps/elka-e2e",
+      "sourceRoot": "apps/elka-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/elka-e2e/cypress.json",
+            "tsConfig": "apps/elka-e2e/tsconfig.e2e.json",
+            "devServerTarget": "elka:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "elka:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/elka-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/elka-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "prefix": "api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": ["apps/api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/api/tsconfig.app.json",
+              "apps/api/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/api/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "deploy": {
+          "builder": "@dev-thought/nx-deploy-it:deploy",
+          "options": {
+            "main": "apps/api/infrastructure/index.ts",
+            "provider": "aws",            
+            "pulumi": {
+              "aws:profile": "",
+              "aws:region": "eu-west-1"
+            }
+          },
+          "configurations": {
+            "production": {              
+              "pulumi": {
+                "aws:profile": "",
+                "aws:region": "us-east-1",
+                "useCdn": false
+              }
+            }
+          }
+        },
+        "destroy": {
+          "builder": "@dev-thought/nx-deploy-it:destroy",
+          "options": {
+            "main": "apps/api/infrastructure/index.ts",
+            "provider": "aws"
+          }
+        }
+      }
+    },
+    "api-interfaces": {
+      "root": "libs/api-interfaces",
+      "sourceRoot": "libs/api-interfaces/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/api-interfaces/tsconfig.lib.json",
+              "libs/api-interfaces/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/api-interfaces/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api-interfaces/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/angular"
+  },
+  "schematics": {
+    "@nrwl/workspace": {
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/cypress": {
+      "cypress-project": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/node": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/nest": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/express": {
+      "application": {
+        "linter": "tslint"
+      },
+      "library": {
+        "linter": "tslint"
+      }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
+    }
+  },
+  "defaultProject": "elka"
+}

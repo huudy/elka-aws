@@ -1,0 +1,5 @@
+config:
+  aws:region: eu-west-1
+  elka-aws:distPath: /mnt/hd/CODE/nx/elka-aws/dist/apps/elka
+  elka-aws:projectName: elka
+  elka-aws:useCdn: "true"
