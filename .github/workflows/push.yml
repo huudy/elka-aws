@@ -36,3 +36,5 @@ jobs:
       - name: Deploy api to AWS with Pulumi
         # shell: bash
         run: npm run api:deployment
+        env:
+          PULUMI_DISABLE_CI_DETECTION: true
