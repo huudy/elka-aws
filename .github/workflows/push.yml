@@ -31,4 +31,4 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Deploy api to AWS with Pulumi
         shell: bash
-        run: nx run api:deploy
+        run: npm run api:deployment
