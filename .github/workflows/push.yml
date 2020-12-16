@@ -35,10 +35,10 @@ jobs:
       - run: npm install
       - name: Deploy api to AWS with Pulumi
         # shell: bash
-        run: npm run api:deployment
-        env:
-          PULUMI_DISABLE_CI_DETECTION: 'true'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
-          PULUMI_SKIP_CONFIRMATION: 'true'
+      - run: npm run api:deployment
+        # env:
+        #   PULUMI_DISABLE_CI_DETECTION: 'true'
+        #   AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        #   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        #   PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+        #   PULUMI_SKIP_CONFIRMATION: 'true'
