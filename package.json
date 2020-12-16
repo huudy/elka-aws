@@ -29,7 +29,7 @@
     "migration:generate": "ts-node ./node_modules/typeorm/cli.js migration:generate -n nazwaWersjiBazyDanych",
     "migration:run": "tsc && node ./node_modules/typeorm/cli.js migration:run",
     "migration:revert": "tsc && node ./node_modules/typeorm/cli.js migration:revert",
-    "api:deployment":"nx run api:deploy"
+    "api:deployment":"nx run api:deploy --yes"
   },
   "private": true,
   "dependencies": {
